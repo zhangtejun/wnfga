@@ -19,13 +19,14 @@ window.socket = io('http://wnfga-thgie.rhcloud.com:8000');
 
 $(function(){
 	dom.init(function(){
-		funcs.inject_css()
+		funcs.inject_css();
 		socket.emit('init', { seed: Math.seed });
 		socket.on('map', function(data){
 			shidiv.size_styles(data.size);
+			dom.by_id('subtitle').innerHTML = data.name;
+			dom.by_id('warp-target').value = data.seed;
 			shidiv.map(data, function(map){
 				dom.by_id('wrapper').appendChild(map);
-				dom.by_id('subtitle').innerHTML = data.name;
 				$('.tile').each(function(i, e){
 					$(e).delay(i*7).fadeIn('fast');
 				})
@@ -37,13 +38,6 @@ $(function(){
 				socket.emit('pull', data.hero);
 			});
 		});
-		/*socket.on('move', function(data){
-			var _class = $('.hero.me').attr('class');
-			_class = _class.replace(/x\d\d?/, 'x'+data.x);
-			_class = _class.replace(/y\d\d?/, 'y'+data.y);
-
-			$('.hero').attr('class', _class);
-		})*/
 		socket.on('joined', function(data){
 			var another = shidiv.another(data);
 			dom.by_id('tiles').appendChild(another)
@@ -6302,14 +6296,24 @@ var init = function(callback){
 		body = by_tag_name('body'),
 
 		title = create('h1', {id: 'title'}),
-		subtitle = create('h2', {id: 'subtitle'});
+		subtitle = create('h2', {id: 'subtitle'}),
+		options = create('div', {id: 'options'}),
+
+		random = create('a', {id: 'random-warp'}),
+		target = create('input', {id: 'warp-target'}),
+		warp = create('a', {id: 'warp'});
 
 	body.appendChild(wrapper);
 	head.appendChild(title_head);
 	head.appendChild(meta);
+	body.appendChild(options);
 
 	wrapper.appendChild(title);
 	wrapper.appendChild(subtitle);
+
+	options.appendChild(target);
+	options.appendChild(warp);
+	options.appendChild(random);
 
 	title_head.text = 'Who Needs Fancy Graphics Anyway';
 	sprites.init();
@@ -6321,6 +6325,10 @@ var init = function(callback){
 	//_void.src = '/img/void.png'
 
 	title.innerHTML = 'Who Needs Fancy Graphics Anyway';
+	random.innerHTML = 'Random Warp';
+	random.href = 'javascript:void(0);';
+	warp.innerHTML = 'Warp';
+	warp.href = 'javascript:void(0);';
 
 	callback();
 }
@@ -6415,6 +6423,7 @@ module.exports = {
 var hero = require('./hero');
 var $ = jQuery = require('./../vendor/jquery-2.1.1.min');
 var touchwipe = require('./../vendor/jquery.touchwipe.min');
+var dom = require('./dom')
 
 var init = function(){
 	document.onkeyup = on_key_up;
@@ -6429,17 +6438,17 @@ var init = function(){
 		preventDefaultEvents: true
 	});
 
-	$('#options a#warp').click(function(e){
-		var _class =  e.target.className;
+	dom.by_id('random-warp').onclick = function(){
+		var _hash = Math.round(Math.random() * 1000000);
+		window.location.hash = _hash;
+		window.location.reload();
+	}
 
-		if(_class !== 'warp super') {
-			document.getElementById('wrapper').className = _class;
-		} else {
-			var _hash = Math.round(Math.random() * 1000000);
-			window.location.hash = _hash;
-			window.location.reload();
-		}
-	})
+	dom.by_id('warp').onclick = function(){
+		var _hash = dom.by_id('warp-target').value;
+		window.location.hash = _hash;
+		window.location.reload();
+	}
 }
 
 var on_key_up = function(e) {
@@ -6491,7 +6500,7 @@ module.exports = {
 	init: init,
 	move: move
 }
-},{"./../vendor/jquery-2.1.1.min":"C:\\Users\\Adrian\\Dropbox\\code\\ch.thgie.games\\wnfga\\static\\js\\vendor\\jquery-2.1.1.min.js","./../vendor/jquery.touchwipe.min":"C:\\Users\\Adrian\\Dropbox\\code\\ch.thgie.games\\wnfga\\static\\js\\vendor\\jquery.touchwipe.min.js","./hero":"C:\\Users\\Adrian\\Dropbox\\code\\ch.thgie.games\\wnfga\\static\\js\\wnfga\\hero.js"}],"C:\\Users\\Adrian\\Dropbox\\code\\ch.thgie.games\\wnfga\\static\\js\\wnfga\\shidiv.js":[function(require,module,exports){
+},{"./../vendor/jquery-2.1.1.min":"C:\\Users\\Adrian\\Dropbox\\code\\ch.thgie.games\\wnfga\\static\\js\\vendor\\jquery-2.1.1.min.js","./../vendor/jquery.touchwipe.min":"C:\\Users\\Adrian\\Dropbox\\code\\ch.thgie.games\\wnfga\\static\\js\\vendor\\jquery.touchwipe.min.js","./dom":"C:\\Users\\Adrian\\Dropbox\\code\\ch.thgie.games\\wnfga\\static\\js\\wnfga\\dom.js","./hero":"C:\\Users\\Adrian\\Dropbox\\code\\ch.thgie.games\\wnfga\\static\\js\\wnfga\\hero.js"}],"C:\\Users\\Adrian\\Dropbox\\code\\ch.thgie.games\\wnfga\\static\\js\\wnfga\\shidiv.js":[function(require,module,exports){
 var funcs = require('./functions');
 var sprites = require('./sprites');
 var $ = require('./../vendor/jquery-2.1.1.min');

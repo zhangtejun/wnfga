@@ -18,13 +18,14 @@ window.socket = io('http://wnfga-thgie.rhcloud.com:8000');
 
 $(function(){
 	dom.init(function(){
-		funcs.inject_css()
+		funcs.inject_css();
 		socket.emit('init', { seed: Math.seed });
 		socket.on('map', function(data){
 			shidiv.size_styles(data.size);
+			dom.by_id('subtitle').innerHTML = data.name;
+			dom.by_id('warp-target').value = data.seed;
 			shidiv.map(data, function(map){
 				dom.by_id('wrapper').appendChild(map);
-				dom.by_id('subtitle').innerHTML = data.name;
 				$('.tile').each(function(i, e){
 					$(e).delay(i*7).fadeIn('fast');
 				})
@@ -36,13 +37,6 @@ $(function(){
 				socket.emit('pull', data.hero);
 			});
 		});
-		/*socket.on('move', function(data){
-			var _class = $('.hero.me').attr('class');
-			_class = _class.replace(/x\d\d?/, 'x'+data.x);
-			_class = _class.replace(/y\d\d?/, 'y'+data.y);
-
-			$('.hero').attr('class', _class);
-		})*/
 		socket.on('joined', function(data){
 			var another = shidiv.another(data);
 			dom.by_id('tiles').appendChild(another)

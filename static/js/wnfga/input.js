@@ -1,6 +1,7 @@
 var hero = require('./hero');
 var $ = jQuery = require('./../vendor/jquery-2.1.1.min');
 var touchwipe = require('./../vendor/jquery.touchwipe.min');
+var dom = require('./dom')
 
 var init = function(){
 	document.onkeyup = on_key_up;
@@ -15,17 +16,17 @@ var init = function(){
 		preventDefaultEvents: true
 	});
 
-	$('#options a#warp').click(function(e){
-		var _class =  e.target.className;
+	dom.by_id('random-warp').onclick = function(){
+		var _hash = Math.round(Math.random() * 1000000);
+		window.location.hash = _hash;
+		window.location.reload();
+	}
 
-		if(_class !== 'warp super') {
-			document.getElementById('wrapper').className = _class;
-		} else {
-			var _hash = Math.round(Math.random() * 1000000);
-			window.location.hash = _hash;
-			window.location.reload();
-		}
-	})
+	dom.by_id('warp').onclick = function(){
+		var _hash = dom.by_id('warp-target').value;
+		window.location.hash = _hash;
+		window.location.reload();
+	}
 }
 
 var on_key_up = function(e) {

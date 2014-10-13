@@ -12,14 +12,24 @@ var init = function(callback){
 		body = by_tag_name('body'),
 
 		title = create('h1', {id: 'title'}),
-		subtitle = create('h2', {id: 'subtitle'});
+		subtitle = create('h2', {id: 'subtitle'}),
+		options = create('div', {id: 'options'}),
+
+		random = create('a', {id: 'random-warp'}),
+		target = create('input', {id: 'warp-target'}),
+		warp = create('a', {id: 'warp'});
 
 	body.appendChild(wrapper);
 	head.appendChild(title_head);
 	head.appendChild(meta);
+	body.appendChild(options);
 
 	wrapper.appendChild(title);
 	wrapper.appendChild(subtitle);
+
+	options.appendChild(target);
+	options.appendChild(warp);
+	options.appendChild(random);
 
 	title_head.text = 'Who Needs Fancy Graphics Anyway';
 	sprites.init();
@@ -31,6 +41,10 @@ var init = function(callback){
 	//_void.src = '/img/void.png'
 
 	title.innerHTML = 'Who Needs Fancy Graphics Anyway';
+	random.innerHTML = 'Random Warp';
+	random.href = 'javascript:void(0);';
+	warp.innerHTML = 'Warp';
+	warp.href = 'javascript:void(0);';
 
 	callback();
 }
