@@ -19,7 +19,8 @@ var generate = function(seed){
 
 	var board = {
 		seed: seed,
-		size: Math.floor(pg.rand * 7 + 5)
+		size: Math.floor(pg.rand * 7 + 5),
+		name: landscape_name(seed)
 	};
 
 	seed = pg.seed;
@@ -109,8 +110,11 @@ var hero = function(board){
 	return hero;
 }
 
-var generate_landscape_name = function() {
-	var base = Math.floor(Math.seededRandom() * 100000),
+var landscape_name = function(seed) {
+	var pg = seeded(seed);
+	seed = pg.seed;
+
+	var base = Math.floor(pg.rand * 100000),
 		start = '',
 		middle = '',
 		ending = '',
@@ -119,12 +123,18 @@ var generate_landscape_name = function() {
 	length = base % 2 + 3;
 
 	for(var l = 0; l < length; l++){
-		var format = Math.floor(Math.seededRandom() * 100000) % 4;
+		var pg = seeded(seed);
+		seed = pg.seed;
+		var format = Math.floor(pg.rand * 100000) % 4;
 		for(var f = 0; f < format; f++){
 			if(f === 0){
-				start += consonants[Math.floor(Math.seededRandom() * 100000) % consonants.length];
+				var pg = seeded(seed);
+				seed = pg.seed;
+				start += consonants[Math.floor(pg.rand * 100000) % consonants.length];
 			} else {
-				start += vocals[Math.floor(Math.seededRandom() * 100000) % vocals.length];
+				var pg = seeded(seed);
+				seed = pg.seed;
+				start += vocals[Math.floor(pg.rand * 100000) % vocals.length];
 			}
 		}
 	}

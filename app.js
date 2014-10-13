@@ -5,7 +5,7 @@ var _ipaddr  = process.env.OPENSHIFT_NODEJS_IP;
 var _port    = parseInt(process.env.OPENSHIFT_NODEJS_PORT) || 3000;
 
 var server = app.listen(_port, _ipaddr, function() {
-	console.log('Listening on port %d', server.address().port);
+	console.log('Listening on ports %d', server.address().port);
 });
 
 var map = require('./app/map');
@@ -19,7 +19,7 @@ var io = require('socket.io')(server);
 
 io.on('connection', function (socket) {
 	socket.on('init', function (data) {
-		var board = map.generate(data.seed)
+		var board = map.generate(data.seed);
 		socket.emit('map', board);
 		socket.join(data.seed);
 		socket.to(data.seed).emit('joined', board.hero);

@@ -14,6 +14,18 @@ var init = function(){
 		min_move_y: 20,
 		preventDefaultEvents: true
 	});
+
+	$('#options a#warp').click(function(e){
+		var _class =  e.target.className;
+
+		if(_class !== 'warp super') {
+			document.getElementById('wrapper').className = _class;
+		} else {
+			var _hash = Math.round(Math.random() * 1000000);
+			window.location.hash = _hash;
+			window.location.reload();
+		}
+	})
 }
 
 var on_key_up = function(e) {

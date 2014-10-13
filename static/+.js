@@ -14,7 +14,8 @@ var others = [];
 // init seed
 Math.seed = window.location.hash.split('#')[1] || Math.round(Math.random() * 100000);
 
-window.socket = io('http://wnfga-thgie.rhcloud.com:8000');
+//window.socket = io('http://wnfga-thgie.rhcloud.com:8000');
+window.socket = io('http://localhost:3000');
 
 $(function(){
 	dom.init(function(){
@@ -24,6 +25,7 @@ $(function(){
 			shidiv.size_styles(data.size);
 			shidiv.map(data, function(map){
 				dom.by_id('wrapper').appendChild(map);
+				dom.by_id('subtitle').innerHTML = data.name;
 				$('.tile').each(function(i, e){
 					$(e).delay(i*7).fadeIn('fast');
 				})
@@ -6290,20 +6292,26 @@ var sprites = require('./sprites');
 
 var init = function(callback){
 	var html = by_tag_name('html'),
-		title = create('title'),
+		title_head = create('title'),
 		wrapper = create('div', {id: 'wrapper'}),
 		meta = create('meta'),
+
 		//_void = create('img'),
 
 		head = by_tag_name('head'),
-		body = by_tag_name('body');
+		body = by_tag_name('body'),
+
+		title = create('h1', {id: 'title'}),
+		subtitle = create('h2', {id: 'subtitle'});
 
 	body.appendChild(wrapper);
-	head.appendChild(title);
+	head.appendChild(title_head);
 	head.appendChild(meta);
-	//wrapper.appendChild(_void);
 
-	title.text = 'Who Needs Fancy Graphics Anyway';
+	wrapper.appendChild(title);
+	wrapper.appendChild(subtitle);
+
+	title_head.text = 'Who Needs Fancy Graphics Anyway';
 	sprites.init();
 
 	meta.name = name="viewport";
@@ -6311,6 +6319,8 @@ var init = function(callback){
 
 	//_void.id = 'void';
 	//_void.src = '/img/void.png'
+
+	title.innerHTML = 'Who Needs Fancy Graphics Anyway';
 
 	callback();
 }
@@ -6418,6 +6428,18 @@ var init = function(){
 		min_move_y: 20,
 		preventDefaultEvents: true
 	});
+
+	$('#options a#warp').click(function(e){
+		var _class =  e.target.className;
+
+		if(_class !== 'warp super') {
+			document.getElementById('wrapper').className = _class;
+		} else {
+			var _hash = Math.round(Math.random() * 1000000);
+			window.location.hash = _hash;
+			window.location.reload();
+		}
+	})
 }
 
 var on_key_up = function(e) {

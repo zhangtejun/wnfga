@@ -13,7 +13,8 @@ var others = [];
 // init seed
 Math.seed = window.location.hash.split('#')[1] || Math.round(Math.random() * 100000);
 
-window.socket = io('http://wnfga-thgie.rhcloud.com:8000');
+//window.socket = io('http://wnfga-thgie.rhcloud.com:8000');
+window.socket = io('http://localhost:3000');
 
 $(function(){
 	dom.init(function(){
@@ -23,6 +24,7 @@ $(function(){
 			shidiv.size_styles(data.size);
 			shidiv.map(data, function(map){
 				dom.by_id('wrapper').appendChild(map);
+				dom.by_id('subtitle').innerHTML = data.name;
 				$('.tile').each(function(i, e){
 					$(e).delay(i*7).fadeIn('fast');
 				})
