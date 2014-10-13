@@ -3,6 +3,16 @@ var $ = require('./../vendor/jquery-2.1.1.min');
 
 var init = function(){
 	document.onkeyup = on_key_up;
+
+	$("#fields").touchwipe({
+		wipeLeft: function() { var e = {keyCode: 37}; on_key_up(e); },
+		wipeRight: function() { var e = {keyCode: 39}; on_key_up(e); },
+		wipeUp: function() { var e = {keyCode: 40}; on_key_up(e); },
+		wipeDown: function() { var e = {keyCode: 38}; on_key_up(e); },
+		min_move_x: 20,
+		min_move_y: 20,
+		preventDefaultEvents: true
+	});
 }
 
 var on_key_up = function(e) {
