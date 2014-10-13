@@ -1,10 +1,11 @@
 var hero = require('./hero');
-var $ = require('./../vendor/jquery-2.1.1.min');
+var $ = jQuery = require('./../vendor/jquery-2.1.1.min');
+var touchwipe = require('./../vendor/jquery.touchwipe.min');
 
 var init = function(){
 	document.onkeyup = on_key_up;
 
-	$("#fields").touchwipe({
+	$("#tiles").touchwipe({
 		wipeLeft: function() { var e = {keyCode: 37}; on_key_up(e); },
 		wipeRight: function() { var e = {keyCode: 39}; on_key_up(e); },
 		wipeUp: function() { var e = {keyCode: 40}; on_key_up(e); },
