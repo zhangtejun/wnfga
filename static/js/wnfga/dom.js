@@ -4,6 +4,7 @@ var init = function(callback){
 	var html = by_tag_name('html'),
 		title = create('title'),
 		wrapper = create('div', {id: 'wrapper'}),
+		meta = create('meta'),
 		//_void = create('img'),
 
 		head = by_tag_name('head'),
@@ -11,10 +12,14 @@ var init = function(callback){
 
 	body.appendChild(wrapper);
 	head.appendChild(title);
+	head.appendChild(meta);
 	//wrapper.appendChild(_void);
 
 	title.text = 'Who Needs Fancy Graphics Anyway';
 	sprites.init();
+
+	meta.name = name="viewport";
+	meta.content ="width=device-width; initial-scale=1.0; maximum-scale=1.0;";
 
 	//_void.id = 'void';
 	//_void.src = '/img/void.png'
